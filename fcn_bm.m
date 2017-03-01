@@ -1,11 +1,10 @@
-function result = fcn_bm(freqMax, demandPairs, demandPairMatrix, psdfix)
+function result = fcn_bm(freqMax, demandPairs, demandPairMatrix, psdfix, modulation)
 % variable PSD
 yalmip('clear')
 
 %% Load network data
 load('GermenNetworkTopology.mat')
 load('fiberParameter.mat')
-
 % The max number of subcarriers per link
 subcarrierMax = freqMax;
 
@@ -14,7 +13,7 @@ subcarrierMax = freqMax;
 
 % A vector of the spectral efficiency of the available modulation formats
 % They are BPSK, PM-QPSK, PM-8QAM, and PM-16QAM
-sev = [1];
+sev = [modulation];
 % number of total demands
 demandTotalPair = size(demandPairs, 1); 
 
@@ -208,8 +207,8 @@ for l = 1:linkNum
                     F = [F; implies(x_modulationBinary(j, k)+...
                         x_connectionLink(j, l)==2, ...
                         x_nliLink(i, j, l)>=linkLength(l)*miu*rho/pi*4*...
-                        fcn_Fmm(0, 0, bw, bw, rho)*...
-                        max([x_connectionPSD(j), 1]*coefSci))];
+                        fcn_Fmm(0, 0, bw/100, bw/100, rho)*...
+                        max([x_connectionPSD(j), 1]*coefSci)*1e-22)];
                 end
             else
                 % XCI term
@@ -345,5 +344,5 @@ result.nli = value(x_nli);
 result.nliLink = value(x_nliLink);
 result.snrcon = value(x_snrcon);
 result.snrth = value(x_snrth);
-result.totalBandwidth = value(x_totalBandwidth)*subcarrierBandwidth;
+result.totalBandwidth = value(x_totalBandwidth);
 end
