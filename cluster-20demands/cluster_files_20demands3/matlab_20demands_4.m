@@ -8,8 +8,8 @@ addpath(genpath('/share/apps/gurobi/6.5.1/matlab'));
 freqMax = 8000;
 
 %% Run optimization - 1. preprocessing
-nDemands = 5;
-idx = 1;
+nDemands = 20;
+idx = 4;
 
 demandName = sprintf('../demands/demands_14nodes_matlab_%d.mat', idx);
 load(demandName);
@@ -27,3 +27,4 @@ resultName = sprintf('results/benchmark_N%d_%d.mat', nDemands, idx);
 save(resultName)
 
 exit;
+

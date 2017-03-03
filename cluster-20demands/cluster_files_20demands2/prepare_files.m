@@ -2,13 +2,14 @@ clc;
 clear;
 close all;
 
-nSimulations = 3;
-nDemands = 5;
-folderName = sprintf('cluster_files_%ddemands', nDemands);
+nSimulations = 6;
+nDemands = 20;
+folderName = sprintf('cluster_files_%ddemands2', nDemands);
 nNodes = 1;
-nTasks = 10;
+cpuPerTask = 4;
+ntasks_per_node = 1;
 nDays = 0;
-nHours = 10;
+nHours = 5;
 nMinutes = 0;
 nSeconds = 0;
 partition = 'economy';
@@ -42,7 +43,8 @@ end
 template_slurm = regexp( fileread('template_slurm_array.slurm'), '\n', 'split');
 template_slurm{1} = sprintf('#!/bin/bash');
 template_slurm{2} = sprintf('#SBATCH --nodes=%d', nNodes);
-template_slurm{3} = sprintf('#SBATCH --ntasks=%d', nTasks);
+template_slurm{3} = sprintf('#SBATCH --ntasks-per-node=%d', ntasks_per_node);
+% template_slurm{3} = sprintf('#SBATCH --cpus-per-task=%d', cpuPerTask);
 template_slurm{4} = sprintf('#SBATCH --time=%d-%d:%d:%d', nDays, nHours, nMinutes, nSeconds);
 template_slurm{5} = sprintf('#SBATCH --output=%ddemands_%%a.stdout', nDemands);
 template_slurm{6} = sprintf('#SBATCH --error=%ddemands_%%a.stderr', nDemands);
@@ -54,6 +56,7 @@ template_slurm{11} = sprintf('module load matlab/R2015a');
 template_slurm{12} = sprintf('module load gurobi/6.5.1');
 template_slurm{13} = sprintf('');
 template_slurm{14} = sprintf('echo $TMPDIR');
+template_slurm{15} = sprintf('');
 template_slurm{16} = sprintf('matlab -nodesktop -r "matlab_%ddemands_${SLURM_ARRAY_TASK_ID};" -logfile matlab_output_${SLURM_ARRAY_TASK_ID}',nDemands);
 
 fid = fopen(sprintf('%s/slurm-%ddemands.slurm', folderName, nDemands), 'w');

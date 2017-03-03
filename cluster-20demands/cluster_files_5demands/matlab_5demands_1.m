@@ -27,3 +27,4 @@ resultName = sprintf('results/benchmark_N%d_%d.mat', nDemands, idx);
 save(resultName)
 
 exit;
+

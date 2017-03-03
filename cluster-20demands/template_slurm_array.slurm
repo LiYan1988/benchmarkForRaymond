@@ -7,7 +7,7 @@
 #SBATCH --partition=economy
 #SBATCH --account=maite_group
 #SBATCH --array=1-30
-
+#SBATCH --cpus-per-task=1
 module load matlab/R2015a
 module load gurobi/6.5.1
 

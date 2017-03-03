@@ -323,7 +323,7 @@ Objective = x_totalBandwidth+w*(sum(x_nliLink(:))+sum(x_aseLink(:)))+...
 
 %% Run yalmip
 options = sdpsettings('solver', 'gurobi', 'gurobi.symmetry', 1, ...
-    'gurobi.mipfocus', 1, 'gurobi.timelimit', 300, 'gurobi.MIPGapAbs', 1);
+    'gurobi.mipfocus', 1, 'gurobi.timelimit', 3000, 'gurobi.MIPGapAbs', 1);
 optimize(F, Objective, options);
 
 result = struct();
