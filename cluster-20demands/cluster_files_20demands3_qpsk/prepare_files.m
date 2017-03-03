@@ -3,8 +3,8 @@ clear;
 close all;
 
 nSimulations = 2;
-nDemands = 5;
-modulation = 'bpsk';
+nDemands = 20;
+modulation = 'qpsk';
 folderName = sprintf('cluster_files_%ddemands3_%s', nDemands, modulation);
 nNodes = 1;
 cpuPerTask = 4;

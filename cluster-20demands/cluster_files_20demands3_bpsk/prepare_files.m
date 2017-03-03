@@ -3,7 +3,7 @@ clear;
 close all;
 
 nSimulations = 2;
-nDemands = 5;
+nDemands = 20;
 modulation = 'bpsk';
 folderName = sprintf('cluster_files_%ddemands3_%s', nDemands, modulation);
 nNodes = 1;

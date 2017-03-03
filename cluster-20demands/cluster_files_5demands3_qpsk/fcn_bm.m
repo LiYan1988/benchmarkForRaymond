@@ -6,7 +6,7 @@ yalmip('clear')
 load('GermenNetworkTopology.mat')
 load('fiberParameter.mat')
 % The max number of subcarriers per link is freqMax
-networkCostMatrix = networkCostMatrix*3;
+networkCostMatrix = networkCostMatrix*10;
 % The number of nodes in the network
 % nodeNum = size(networkAdjacentMatrix, 1);
 
