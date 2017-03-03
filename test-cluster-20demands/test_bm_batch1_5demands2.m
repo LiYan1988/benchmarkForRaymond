@@ -1,5 +1,7 @@
 % simulation benchmark for Raymond, 5 demands, 20 simulations
-addpath(genpath('/scratch/ly6j/YALMIP')); 
+addpath(genpath('/scratch/ly6j/YALMIP'));
+addpath(genpath('/share/apps/gurobi/6.5.1/matlab'));
+
 parpool(10); 
 
 %% Generate traffic matrix
@@ -21,7 +23,7 @@ for j = 1 : 1
     if ~exist('results', 'dir')
         mkdir('results')
     end
-    resultName = sprintf('benchmark_N%d_%d.mat', nDemands, j);
+    resultName = sprintf('results/benchmark_N%d_%d.mat', nDemands, j);
     save(resultName)
 end
 

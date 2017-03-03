@@ -7,7 +7,7 @@
 #SBATCH --partition=serial
 #SBATCH --account=maite_group
 
-module load matlab/R2016a
+module load matlab/R2015a
 module load gurobi/6.5.1
 
 matlab -nodesktop -r "test_bm_batch1_5demands2;" -logfile matlab_output2
