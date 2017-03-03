@@ -103,15 +103,14 @@ end
 x_connectionBandwidth = sdpvar(demandTotalPair, 1);
 
 % The range of x_connectionBandwidth
-F = [F; x_connectionBandwidth>=p_Lambda/sev(end); ...
-    x_connectionBandwidth<=p_Lambda/sev(1)];
+F = [F; x_connectionBandwidth==p_Lambda];
 
 % The choise of x_connectionBandwidth is related with the modulation
 % formats.
-for i = 1 : demandTotalPair
-    F = [F; x_connectionBandwidth(i)==...
-        x_modulationBinary(i, :)*p_Lambda(i)./sev];
-end
+% for i = 1 : demandTotalPair
+%     F = [F; x_connectionBandwidth(i)==...
+%         x_modulationBinary(i, :)*p_Lambda(i)./sev];
+% end
 
 %% Create variable x_channelSpacing
 % Channel spacing in unit of number of subcarriers, 1/2-integer
@@ -123,7 +122,7 @@ ttemp = sort(p_Lambda);
 % should be consistant with the calculation of XCIs.
 F = [F; x_channelSpacing>=0; ...
     x_channelSpacing<=subcarrierMax-...
-    sum(ttemp(1)/sev(end)+ttemp(2)/sev(end))/2+1];
+    sum(ttemp(1)+ttemp(2))/2+1];
 clear ttemp
 
 %% Create constraint: ordering and channel spacings of connections
@@ -189,7 +188,7 @@ x_nliLink = sdpvar(demandTotalPair, demandTotalPair, linkNum, 'full');
 
 % The range of x_nliLink
 F = [F; x_nliLink(:)>=0; x_nliLink<=max(linkLength)*...
-    miu*psdfix^2*max(asinh(rho*(max(p_Lambda)/sev(1))^2), log(2.05/0.05))];
+    miu*psdfix^2*max(asinh(rho*(max(p_Lambda))^2), log(2.05/0.05))];
 
 % Load fitting coefficients
 load('xciFitCoef_K60.mat', 'coefXci')
@@ -203,7 +202,7 @@ for l = 1:linkNum
                 % For each modulation format of i, there is an 
                 % approximation for SCI
                 for k = 1:length(sev)
-                    bw = ceil(p_Lambda(j)/sev(k));
+                    bw = ceil(p_Lambda(j));
                     F = [F; implies(x_modulationBinary(j, k)+...
                         x_connectionLink(j, l)==2, ...
                         x_nliLink(i, j, l)>=linkLength(l)*miu*rho/pi*4*...
@@ -226,7 +225,7 @@ for l = 1:linkNum
                         x_nliLink(i, j, l)>= linkLength(l)*miu*...
                         max([x_connectionPSD(j), ...
                         2*x_channelSpacing(idxtemp)/...
-                        p_Lambda(j)/sev(k), 1]*coefXci))];
+                        p_Lambda(j), 1]*coefXci))];
                 end
             end
         end
@@ -277,7 +276,7 @@ F = [F; x_snrcon <= 0];
 % spans should be less than a certain number.
 for i = 1 : demandTotalPair
     for k = 1 : length(sev)
-        tempNoise = 3*(miu*asinh(rho*(p_Lambda(i)/sev(k))^2)*Nase^2/4)^(1/3);
+        tempNoise = 3*(miu*asinh(rho*(p_Lambda(i))^2)*Nase^2/4)^(1/3);
         tempSpanLimit = floor(-snrthCoef(k)/tempNoise);
         F = [F; implies(x_modulationBinary(i, k)==1, ...
             x_connectionLink(i, :)*linkLength<=tempSpanLimit)];
