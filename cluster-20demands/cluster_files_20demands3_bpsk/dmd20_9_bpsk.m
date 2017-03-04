@@ -8,8 +8,8 @@ warning off;
 freqMax = 8000;
 
 %% Run optimization - 1. preprocessing
-nDemands = 5;
-idx = 1;
+nDemands = 20;
+idx = 9;
 
 demandName = sprintf('../demands/demands_14nodes_matlab_%d.mat', idx);
 load(demandName);
@@ -27,3 +27,4 @@ resultName = sprintf('results/benchmark_N%d_%d.mat', nDemands, idx);
 save(resultName)
 
 exit;
+
