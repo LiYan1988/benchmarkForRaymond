@@ -3,14 +3,14 @@ clear;
 close all;
 
 nSimulations = 20;
-nDemands = 25;
+nDemands = 30;
 modulation = 'bpsk';
 folderName = sprintf('cluster_files_%ddemands_%s', nDemands, modulation);
 nNodes = 1;
-cpuPerTask = 3;
+cpuPerTask = 1;
 ntasks_per_node = 1;
 nDays = 0;
-nHours = 12;
+nHours = 24;
 nMinutes = 0;
 nSeconds = 0;
 mem = 64;
